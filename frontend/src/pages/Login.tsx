@@ -164,23 +164,35 @@ export function Login() {
               <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} placeholder="you@example.com" />
             </Field>
 
-            {mode === 'signin' && (
-              <>
-                <Field label="Password">
-                  <input required type="password" minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className={inputCls} placeholder="••••••••" />
-                </Field>
+          {(mode === 'signin' || mode === 'signup') && (
+  <Field label="Password">
+    <input
+      required
+      type="password"
+      minLength={6}
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      className={inputCls}
+      placeholder="••••••••"
+    />
+  </Field>
+)}
 
-                <div className="-mt-1 text-right">
-                  <button
-                    type="button"
-                    onClick={() => { setMode('forgot'); setError(null); setMessage(null) }}
-                    className="text-xs font-medium text-amber-400 transition hover:text-amber-300"
-                  >
-                    Forgot password?
-                  </button>
-                </div>
-              </>
-            )}
+{mode === 'signin' && (
+  <div className="-mt-1 text-right">
+    <button
+      type="button"
+      onClick={() => {
+        setMode('forgot')
+        setError(null)
+        setMessage(null)
+      }}
+      className="text-xs font-medium text-amber-400 transition hover:text-amber-300"
+    >
+      Forgot password?
+    </button>
+  </div>
+)}
 
             {mode === 'reset' && (
               <>
