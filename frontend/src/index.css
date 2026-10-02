@@ -1,0 +1,320 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   BAYLINE — GLOBAL STYLES
+   Phase 1 Premium Automotive UI
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   GLOBAL
+   --------------------------------------------------------- */
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-graphite-950 text-bone font-body antialiased;
+
+  background:
+    radial-gradient(
+      circle at 12% 0%,
+      rgba(242, 169, 59, 0.08),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 100% 18%,
+      rgba(63, 124, 124, 0.09),
+      transparent 38%
+    ),
+    #0d0d0c;
+}
+
+/* ---------------------------------------------------------
+   TEXT SELECTION
+   --------------------------------------------------------- */
+
+::selection {
+  background: rgba(232, 150, 31, 0.28);
+  color: #f2efe9;
+}
+
+/* ---------------------------------------------------------
+   LICENSE PLATE / MONOSPACE TEXT
+   --------------------------------------------------------- */
+
+.plate {
+  @apply font-mono tracking-widest uppercase;
+}
+
+/* ---------------------------------------------------------
+   BAYLINE BACKGROUND GRID
+   --------------------------------------------------------- */
+
+.bayline-grid {
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 36px 36px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 85%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 85%
+  );
+}
+
+/* ---------------------------------------------------------
+   GLASS EFFECT
+   --------------------------------------------------------- */
+
+.bayline-glass {
+  background: rgba(24, 24, 22, 0.72);
+
+  border: 1px solid rgba(255, 255, 255, 0.075);
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.28);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ---------------------------------------------------------
+   CARD
+   --------------------------------------------------------- */
+
+.bayline-card {
+  @apply rounded-2xl border border-graphite-700 bg-graphite-800/50;
+
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------------------------------------------------------
+   CARD HOVER
+   --------------------------------------------------------- */
+
+.bayline-hover {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.bayline-hover:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(242, 169, 59, 0.42);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------------------------------------------------------
+   BUTTON
+   --------------------------------------------------------- */
+
+.bayline-button {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.bayline-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 32px rgba(242, 169, 59, 0.18);
+}
+
+.bayline-button:active {
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------
+   MODAL
+   --------------------------------------------------------- */
+
+.bayline-modal {
+  animation: modalIn 0.25s ease-out both;
+}
+
+/* ---------------------------------------------------------
+   FADE UP
+   --------------------------------------------------------- */
+
+.bayline-fade-up {
+  animation: fadeUp 0.65s ease-out both;
+}
+
+/* ---------------------------------------------------------
+   LIVE PULSE
+   --------------------------------------------------------- */
+
+.bayline-pulse {
+  animation: pulse-ring 2s infinite;
+}
+
+.status-live {
+  animation: pulse-ring 2s infinite;
+}
+
+/* ---------------------------------------------------------
+   MODAL ANIMATION
+   --------------------------------------------------------- */
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------------------------------------------------------
+   FADE UP ANIMATION
+   --------------------------------------------------------- */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------------------------------------------------
+   PULSE RING
+   --------------------------------------------------------- */
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(242, 169, 59, 0.5);
+  }
+
+  70% {
+    box-shadow:
+      0 0 0 8px rgba(242, 169, 59, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(242, 169, 59, 0);
+  }
+}
+
+/* ---------------------------------------------------------
+   SUCCESS POP
+   --------------------------------------------------------- */
+
+@keyframes successPop {
+  0% {
+    transform: scale(0.55);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-pop {
+  animation:
+    successPop 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* ---------------------------------------------------------
+   LEAFLET MAP
+   --------------------------------------------------------- */
+
+.leaflet-container {
+  font-family: inherit;
+  background: #151513;
+}
+
+.leaflet-control-zoom a {
+  background: #1d1d1a !important;
+  color: #f2a93b !important;
+  border-color: #3a3a34 !important;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #f5f3ed;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px;
+}
+
+.bayline-pin {
+  background: transparent;
+  border: 0;
+}
+
+/* ---------------------------------------------------------
+   ACCESSIBILITY
+   --------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid #f2a93b;
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------
+   REDUCED MOTION
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

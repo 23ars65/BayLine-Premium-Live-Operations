@@ -1,0 +1,301 @@
+vehicle_type,vehicle_age,mileage,complaint,service,priority
+Car,1,107196,electric start is not working,Battery Replacement,High
+Car,3,106530,brakes squeaking,Brake Inspection,High
+Car,10,65302,battery keeps dying,Battery Replacement,High
+Car,4,40495,oil service is due,Oil Change,Medium
+Car,9,36062,air from AC is warm,AC Service,Medium
+Car,8,87236,steering vibrates while driving,Wheel Alignment,Medium
+Car,7,54597,oil warning light is on,Oil Change,Medium
+Car,6,23396,brakes squeaking,Brake Inspection,High
+Car,6,55082,tyres are wearing unevenly,Wheel Alignment,Medium
+Car,8,80284,general maintenance required,General Service,Low
+Car,9,48427,tyres are wearing unevenly,Wheel Alignment,Medium
+Car,2,16006,vehicle has not been serviced for a long time,General Service,Low
+Car,4,23238,vehicle maintenance is due,General Service,Low
+Bike,6,31319,car needs regular servicing,General Service,Low
+Car,5,101988,general maintenance required,General Service,Low
+Car,9,105568,AC gas seems low,AC Service,Medium
+Bike,7,45382,strange sound while braking,Brake Inspection,High
+Bike,1,40021,brakes making noise,Brake Inspection,High
+Bike,5,18675,vehicle has not been serviced for a long time,General Service,Low
+Bike,4,95909,AC takes too long to cool,AC Service,Medium
+Bike,3,44718,vehicle feels unstable while driving,Wheel Alignment,Medium
+Bike,10,66155,brake performance is poor,Brake Inspection,High
+Bike,4,28131,vehicle does not drive straight,Wheel Alignment,Medium
+Car,1,24371,vehicle feels unstable while driving,Wheel Alignment,Medium
+Car,7,88172,car does not start due to battery,Battery Replacement,High
+Bike,10,71348,vehicle does not drive straight,Wheel Alignment,Medium
+Car,2,99353,routine service is required,General Service,Low
+Bike,2,48469,vehicle maintenance is due,General Service,Low
+Bike,1,104646,brakes feel weak,Brake Inspection,High
+Car,9,23947,car AC stopped cooling,AC Service,Medium
+Car,3,59009,battery is weak,Battery Replacement,High
+Car,10,52487,AC takes too long to cool,AC Service,Medium
+Car,6,119008,oil warning light is on,Oil Change,Medium
+Car,4,84364,brakes squeaking,Brake Inspection,High
+Bike,2,109693,oil service is due,Oil Change,Medium
+Car,8,82063,grinding noise when braking,Brake Inspection,High
+Bike,4,80686,vehicle has not been serviced for a long time,General Service,Low
+Bike,7,98039,battery needs replacement,Battery Replacement,High
+Bike,2,42493,uneven tyre wear,Wheel Alignment,Medium
+Bike,1,87110,oil service is due,Oil Change,Medium
+Car,1,19305,brakes making noise,Brake Inspection,High
+Car,1,53309,brakes squeaking,Brake Inspection,High
+Car,5,97684,AC takes too long to cool,AC Service,Medium
+Car,10,85525,brake pedal feels soft,Brake Inspection,High
+Bike,7,34957,brakes squeaking,Brake Inspection,High
+Bike,6,65519,oil level is low,Oil Change,Medium
+Car,2,17944,car drifts to the right,Wheel Alignment,Medium
+Bike,2,42591,battery warning light is on,Battery Replacement,High
+Bike,3,65296,grinding noise when braking,Brake Inspection,High
+Bike,4,19880,car needs a general checkup,General Service,Low
+Car,1,95477,air from AC is warm,AC Service,Medium
+Car,4,31798,oil level is low,Oil Change,Medium
+Bike,4,62565,car pulling to one side,Wheel Alignment,Medium
+Bike,1,61173,brakes feel weak,Brake Inspection,High
+Bike,7,101303,vehicle does not drive straight,Wheel Alignment,Medium
+Bike,3,34890,electric start is not working,Battery Replacement,High
+Car,10,106434,strange sound while braking,Brake Inspection,High
+Bike,1,16572,car needs an oil change,Oil Change,Medium
+Car,1,76562,steering wheel is not straight,Wheel Alignment,Medium
+Car,10,18907,brake pads making noise,Brake Inspection,High
+Car,10,42271,tyres are wearing unevenly,Wheel Alignment,Medium
+Car,10,20745,air conditioner is not working,AC Service,Medium
+Bike,5,36772,battery needs replacement,Battery Replacement,High
+Bike,7,27154,brakes feel weak,Brake Inspection,High
+Bike,2,11220,steering feels misaligned,Wheel Alignment,Medium
+Car,2,80468,AC gas seems low,AC Service,Medium
+Bike,3,55745,AC blowing warm air,AC Service,Medium
+Bike,5,30676,brake pedal feels soft,Brake Inspection,High
+Bike,10,115788,air from AC is warm,AC Service,Medium
+Bike,2,27601,oil warning light is on,Oil Change,Medium
+Car,9,30374,oil warning light is on,Oil Change,Medium
+Car,6,36685,full vehicle inspection required,General Service,Low
+Bike,5,16658,AC blowing warm air,AC Service,Medium
+Bike,5,15778,battery keeps dying,Battery Replacement,High
+Car,5,31178,car needs a general checkup,General Service,Low
+Bike,9,11267,AC blowing warm air,AC Service,Medium
+Car,9,14722,vehicle needs an oil service,Oil Change,Medium
+Car,7,26704,air conditioner not cooling,AC Service,Medium
+Bike,1,56898,vehicle has not been serviced for a long time,General Service,Low
+Car,2,56357,battery loses charge quickly,Battery Replacement,High
+Car,4,31299,vehicle feels unstable while driving,Wheel Alignment,Medium
+Car,3,106542,car drifts to the left,Wheel Alignment,Medium
+Car,5,30866,steering wheel is not straight,Wheel Alignment,Medium
+Car,8,39154,uneven tyre wear,Wheel Alignment,Medium
+Bike,5,117549,uneven tyre wear,Wheel Alignment,Medium
+Car,4,62227,braking feels abnormal,Brake Inspection,High
+Car,5,56025,routine service is required,General Service,Low
+Bike,1,25118,steering vibrates while driving,Wheel Alignment,Medium
+Bike,1,24208,brake performance is poor,Brake Inspection,High
+Bike,6,67199,tyres are wearing unevenly,Wheel Alignment,Medium
+Car,7,85574,AC gas seems low,AC Service,Medium
+Car,7,10221,routine service is required,General Service,Low
+Car,6,66531,AC blowing warm air,AC Service,Medium
+Bike,10,51145,car does not start due to battery,Battery Replacement,High
+Bike,9,50538,vehicle battery is dead,Battery Replacement,High
+Bike,5,82667,car needs routine maintenance,General Service,Low
+Bike,7,98777,grinding noise when braking,Brake Inspection,High
+Bike,7,81819,air conditioner not cooling,AC Service,Medium
+Bike,4,66346,vehicle needs overall inspection,General Service,Low
+Bike,8,67905,AC takes too long to cool,AC Service,Medium
+Car,9,72021,battery is weak,Battery Replacement,High
+Car,5,77561,vehicle does not start,Battery Replacement,High
+Car,4,98184,full vehicle inspection required,General Service,Low
+Car,3,13201,brakes making noise,Brake Inspection,High
+Bike,10,110727,brakes squeaking,Brake Inspection,High
+Bike,10,35485,car drifts to the right,Wheel Alignment,Medium
+Bike,4,29342,car pulling to one side,Wheel Alignment,Medium
+Bike,4,33053,oil service is due,Oil Change,Medium
+Car,9,42662,steering wheel is not straight,Wheel Alignment,Medium
+Car,8,97500,vehicle does not drive straight,Wheel Alignment,Medium
+Bike,8,90301,air from AC is warm,AC Service,Medium
+Bike,3,107472,steering feels misaligned,Wheel Alignment,Medium
+Bike,4,93579,steering vibrates while driving,Wheel Alignment,Medium
+Bike,4,45992,AC takes too long to cool,AC Service,Medium
+Bike,4,45614,vehicle needs an oil service,Oil Change,Medium
+Car,3,29769,vehicle has not been serviced for a long time,General Service,Low
+Car,4,18418,car drifts to the right,Wheel Alignment,Medium
+Bike,9,71069,car drifts to the right,Wheel Alignment,Medium
+Car,7,61049,car needs an oil change,Oil Change,Medium
+Car,10,59857,car has starting problems,Battery Replacement,High
+Bike,5,108759,oil level is low,Oil Change,Medium
+Car,8,38760,steering vibrates while driving,Wheel Alignment,Medium
+Bike,1,60968,car drifts to the left,Wheel Alignment,Medium
+Bike,3,71261,battery is weak,Battery Replacement,High
+Car,7,87580,car air conditioning needs service,AC Service,Medium
+Car,2,94246,vehicle battery is dead,Battery Replacement,High
+Bike,3,16590,brakes feel weak,Brake Inspection,High
+Bike,4,69598,car drifts to the left,Wheel Alignment,Medium
+Bike,5,108567,vehicle maintenance is due,General Service,Low
+Car,8,12540,routine service is required,General Service,Low
+Bike,4,95215,oil is old,Oil Change,Medium
+Car,1,42411,battery warning light is on,Battery Replacement,High
+Car,4,26544,engine oil looks dirty,Oil Change,Medium
+Car,10,38569,car has starting problems,Battery Replacement,High
+Bike,6,31992,vehicle does not start,Battery Replacement,High
+Car,3,50768,AC blowing warm air,AC Service,Medium
+Car,5,85470,air conditioner is not working,AC Service,Medium
+Car,2,87607,uneven tyre wear,Wheel Alignment,Medium
+Bike,10,115582,oil is old,Oil Change,Medium
+Car,6,79827,air conditioner is not working,AC Service,Medium
+Bike,2,76317,battery needs replacement,Battery Replacement,High
+Bike,8,23833,oil level is low,Oil Change,Medium
+Bike,3,67080,car needs routine maintenance,General Service,Low
+Bike,10,115932,battery loses charge quickly,Battery Replacement,High
+Bike,7,118230,tyres are wearing unevenly,Wheel Alignment,Medium
+Bike,4,118885,general maintenance required,General Service,Low
+Bike,4,108366,car needs a general checkup,General Service,Low
+Bike,6,13761,AC takes too long to cool,AC Service,Medium
+Car,8,37802,car needs regular servicing,General Service,Low
+Bike,5,88139,full vehicle inspection required,General Service,Low
+Car,9,35042,AC blowing warm air,AC Service,Medium
+Bike,8,82768,brake pads making noise,Brake Inspection,High
+Bike,8,68743,battery keeps dying,Battery Replacement,High
+Bike,4,63005,engine oil needs replacement,Oil Change,Medium
+Bike,8,82544,routine service is required,General Service,Low
+Bike,9,53357,car needs regular servicing,General Service,Low
+Bike,5,50189,electric start is not working,Battery Replacement,High
+Car,4,51359,brakes squeaking,Brake Inspection,High
+Car,4,38361,car has starting problems,Battery Replacement,High
+Bike,2,119134,vehicle has not been serviced for a long time,General Service,Low
+Car,6,33519,full vehicle inspection required,General Service,Low
+Car,5,15965,engine oil needs changing,Oil Change,Medium
+Bike,3,93606,AC takes too long to cool,AC Service,Medium
+Car,10,47268,engine oil looks dirty,Oil Change,Medium
+Bike,6,34164,car pulling to one side,Wheel Alignment,Medium
+Bike,2,117756,general maintenance required,General Service,Low
+Bike,2,85631,car pulling to one side,Wheel Alignment,Medium
+Car,10,49824,brakes squeaking,Brake Inspection,High
+Car,9,110197,car takes longer to stop,Brake Inspection,High
+Car,9,59856,AC takes too long to cool,AC Service,Medium
+Bike,10,66207,steering vibrates while driving,Wheel Alignment,Medium
+Car,10,107004,AC blowing warm air,AC Service,Medium
+Car,5,96563,brakes squeaking,Brake Inspection,High
+Car,3,82350,brakes squeaking,Brake Inspection,High
+Car,7,69048,brake performance is poor,Brake Inspection,High
+Bike,1,40340,steering vibrates while driving,Wheel Alignment,Medium
+Bike,8,19329,battery warning light is on,Battery Replacement,High
+Car,7,25043,routine service is required,General Service,Low
+Car,5,118348,grinding noise when braking,Brake Inspection,High
+Car,3,113891,oil warning light is on,Oil Change,Medium
+Bike,8,26299,AC takes too long to cool,AC Service,Medium
+Bike,7,45683,battery loses charge quickly,Battery Replacement,High
+Bike,8,20543,car air conditioning needs service,AC Service,Medium
+Bike,6,89129,oil warning light is on,Oil Change,Medium
+Car,4,98381,car needs an oil change,Oil Change,Medium
+Car,5,85529,air conditioner not cooling,AC Service,Medium
+Bike,9,95394,brake pedal feels soft,Brake Inspection,High
+Car,10,67132,car needs a general checkup,General Service,Low
+Bike,6,63523,vehicle needs an oil service,Oil Change,Medium
+Car,3,53228,vehicle maintenance is due,General Service,Low
+Bike,5,96846,vehicle battery is dead,Battery Replacement,High
+Car,8,21542,AC cooling is poor,AC Service,Medium
+Bike,2,111259,vehicle maintenance is due,General Service,Low
+Car,9,70552,air conditioner is not working,AC Service,Medium
+Car,9,57419,car needs an oil change,Oil Change,Medium
+Bike,1,36680,steering vibrates while driving,Wheel Alignment,Medium
+Car,5,67424,AC takes too long to cool,AC Service,Medium
+Car,10,114767,engine oil needs replacement,Oil Change,Medium
+Car,5,82199,battery keeps dying,Battery Replacement,High
+Bike,2,39451,AC blowing warm air,AC Service,Medium
+Car,3,75323,steering vibrates while driving,Wheel Alignment,Medium
+Bike,7,119408,AC takes too long to cool,AC Service,Medium
+Car,8,82255,vehicle feels unstable while driving,Wheel Alignment,Medium
+Car,10,76616,vehicle feels unstable while driving,Wheel Alignment,Medium
+Bike,7,54548,oil service is due,Oil Change,Medium
+Car,5,105164,full vehicle inspection required,General Service,Low
+Bike,3,68529,air from AC is warm,AC Service,Medium
+Bike,6,82340,vehicle does not drive straight,Wheel Alignment,Medium
+Bike,6,34727,uneven tyre wear,Wheel Alignment,Medium
+Bike,4,111652,air conditioner is not working,AC Service,Medium
+Bike,8,102435,oil level is low,Oil Change,Medium
+Car,8,14852,vehicle feels unstable while driving,Wheel Alignment,Medium
+Bike,2,67711,AC blowing warm air,AC Service,Medium
+Bike,1,104692,air conditioning is weak,AC Service,Medium
+Car,2,71537,steering vibrates while driving,Wheel Alignment,Medium
+Bike,2,53065,routine service is required,General Service,Low
+Bike,8,80912,car pulling to one side,Wheel Alignment,Medium
+Car,4,92727,car AC stopped cooling,AC Service,Medium
+Car,7,22903,brakes squeaking,Brake Inspection,High
+Car,5,13794,car pulling to one side,Wheel Alignment,Medium
+Car,5,56984,car needs regular servicing,General Service,Low
+Car,4,79621,car drifts to the right,Wheel Alignment,Medium
+Car,3,32946,AC blowing warm air,AC Service,Medium
+Bike,10,99539,AC gas seems low,AC Service,Medium
+Car,4,70443,steering vibrates while driving,Wheel Alignment,Medium
+Bike,1,115464,steering feels misaligned,Wheel Alignment,Medium
+Car,2,67898,car needs regular servicing,General Service,Low
+Bike,7,100480,car AC stopped cooling,AC Service,Medium
+Bike,4,60422,steering feels misaligned,Wheel Alignment,Medium
+Car,7,84963,vehicle needs an oil service,Oil Change,Medium
+Bike,5,12875,air conditioner is not working,AC Service,Medium
+Car,10,99889,vehicle needs complete service,General Service,Low
+Bike,5,111677,AC gas seems low,AC Service,Medium
+Bike,4,93442,AC gas seems low,AC Service,Medium
+Bike,3,92345,AC blowing warm air,AC Service,Medium
+Car,5,113364,car has starting problems,Battery Replacement,High
+Bike,3,21813,oil warning light is on,Oil Change,Medium
+Bike,3,36318,car needs routine maintenance,General Service,Low
+Bike,9,75771,car AC stopped cooling,AC Service,Medium
+Bike,8,115708,brakes feel weak,Brake Inspection,High
+Bike,2,71385,car does not start due to battery,Battery Replacement,High
+Car,7,115458,strange sound while braking,Brake Inspection,High
+Car,7,11824,full vehicle inspection required,General Service,Low
+Car,8,58311,car AC stopped cooling,AC Service,Medium
+Bike,6,24201,AC gas seems low,AC Service,Medium
+Car,10,83584,car drifts to the left,Wheel Alignment,Medium
+Car,2,93283,AC takes too long to cool,AC Service,Medium
+Bike,7,25292,battery is weak,Battery Replacement,High
+Car,5,74569,oil is old,Oil Change,Medium
+Car,9,27781,oil level is low,Oil Change,Medium
+Bike,9,64935,tyres are wearing unevenly,Wheel Alignment,Medium
+Car,7,95841,car does not start due to battery,Battery Replacement,High
+Bike,5,14288,car drifts to the left,Wheel Alignment,Medium
+Bike,8,40947,braking feels abnormal,Brake Inspection,High
+Bike,9,94518,vehicle needs an oil service,Oil Change,Medium
+Bike,5,34878,oil is old,Oil Change,Medium
+Car,4,94109,tyres are wearing unevenly,Wheel Alignment,Medium
+Car,6,41925,oil change required,Oil Change,Medium
+Car,2,118765,air from AC is warm,AC Service,Medium
+Car,4,53064,grinding noise when braking,Brake Inspection,High
+Car,5,28964,air conditioning is weak,AC Service,Medium
+Bike,3,24408,air conditioner not cooling,AC Service,Medium
+Car,6,113544,brake pads making noise,Brake Inspection,High
+Bike,1,32838,car AC stopped cooling,AC Service,Medium
+Car,7,78955,oil is old,Oil Change,Medium
+Car,8,68756,battery needs replacement,Battery Replacement,High
+Car,8,76039,AC gas seems low,AC Service,Medium
+Car,9,49535,AC takes too long to cool,AC Service,Medium
+Car,1,72781,vehicle battery is dead,Battery Replacement,High
+Car,8,103375,steering feels misaligned,Wheel Alignment,Medium
+Car,6,89730,oil change required,Oil Change,Medium
+Car,5,91830,car needs an oil change,Oil Change,Medium
+Bike,7,88301,air from AC is warm,AC Service,Medium
+Bike,9,89354,vehicle maintenance is due,General Service,Low
+Car,9,104481,engine oil needs replacement,Oil Change,Medium
+Bike,4,64239,car drifts to the left,Wheel Alignment,Medium
+Bike,7,105631,steering wheel is not straight,Wheel Alignment,Medium
+Bike,6,97177,full vehicle inspection required,General Service,Low
+Car,8,18799,general maintenance required,General Service,Low
+Car,7,22656,vehicle needs an oil service,Oil Change,Medium
+Car,10,83608,strange sound while braking,Brake Inspection,High
+Car,7,56346,vehicle maintenance is due,General Service,Low
+Car,5,88696,electric start is not working,Battery Replacement,High
+Car,10,76507,vehicle has not been serviced for a long time,General Service,Low
+Bike,4,24184,braking feels abnormal,Brake Inspection,High
+Bike,2,109956,car AC stopped cooling,AC Service,Medium
+Car,7,83526,car air conditioning needs service,AC Service,Medium
+Car,10,96223,car AC stopped cooling,AC Service,Medium
+Car,5,102104,oil warning light is on,Oil Change,Medium
+Bike,1,33777,car needs routine maintenance,General Service,Low
+Bike,2,28595,air conditioner not cooling,AC Service,Medium
+Car,7,65028,engine oil looks dirty,Oil Change,Medium
+Car,6,50846,car needs regular servicing,General Service,Low
+Car,1,30392,air conditioning is weak,AC Service,Medium
+Car,2,45665,AC takes too long to cool,AC Service,Medium
+Bike,8,89570,car has starting problems,Battery Replacement,High
+Bike,4,108951,vehicle does not drive straight,Wheel Alignment,Medium
+Bike,7,24534,oil warning light is on,Oil Change,Medium
+Bike,9,97442,electric start is not working,Battery Replacement,High
+Car,7,88554,engine oil needs changing,Oil Change,Medium
