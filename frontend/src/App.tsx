@@ -6,7 +6,7 @@ import { Login } from "./pages/Login";
 import { CustomerDashboard } from "./pages/CustomerDashboard";
 import { NewBooking } from "./pages/NewBooking";
 import { AdminBoard } from "./pages/AdminBoard";
-import { LiveOperations } from "./pages/LiveOperations_DEBUGGED";
+import { LiveOperations } from "./pages/LiveOperations";;
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   const { session, loading } = useAuth()

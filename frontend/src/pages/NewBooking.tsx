@@ -53,7 +53,7 @@ export function NewBooking() {
   // RAZORPAY / BILLING STATE
   // =========================================================
 
-  const { Razorpay, isLoading: razorpayLoaded } = useRazorpay()
+  const { Razorpay, isLoading: razorpayLoading } = useRazorpay()
 
   const [showBill, setShowBill] = useState(false)
   const [pendingSlot, setPendingSlot] = useState<Slot | null>(null)
@@ -308,7 +308,7 @@ export function NewBooking() {
         selectedVehicle.year
 
       const response = await fetch(
-        'http://127.0.0.1:5000/predict',
+        'https://bayline-ai-backend.onrender.com/predict',
         {
           method: 'POST',
           headers: {
@@ -441,7 +441,7 @@ export function NewBooking() {
       return
     }
 
-    if (!razorpayLoaded || !Razorpay) {
+    if (razorpayLoading || !Razorpay) {
       setPaymentError(
         'Payment gateway is still loading. Please try again in a moment.'
       )
@@ -454,7 +454,7 @@ export function NewBooking() {
     try {
       // Create the Razorpay order through the Flask backend.
       const orderResponse = await fetch(
-        'http://127.0.0.1:5000/create-payment-order',
+        'https://bayline-ai-backend.onrender.com/create-payment-order',
         {
           method: 'POST',
           headers: {
@@ -489,7 +489,7 @@ export function NewBooking() {
         }) => {
           try {
             const verifyResponse = await fetch(
-              'http://127.0.0.1:5000/verify-payment',
+              'https://bayline-ai-backend.onrender.com/verify-payment',
               {
                 method: 'POST',
                 headers: {
