@@ -42,7 +42,24 @@ export function Login() {
       listener.subscription.unsubscribe()
     }
   }, [])
+async function handleGoogleSignIn() {
+  setError(null)
+  setBusy(true)
 
+  try {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/app`,
+      },
+    })
+
+    if (error) throw error
+  } catch (err) {
+    setError(err instanceof Error ? err.message : 'Google sign-in failed')
+    setBusy(false)
+  }
+}
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError(null)
@@ -152,6 +169,22 @@ export function Login() {
               <button onClick={() => { setMode('signup'); setError(null); setMessage(null) }} className={`rounded-lg py-2 text-sm font-medium transition ${mode === 'signup' ? 'bg-amber-500 text-graphite-950' : 'text-bone/50'}`}>Create account</button>
             </div>
           )}
+<button
+  type="button"
+  onClick={handleGoogleSignIn}
+  disabled={busy}
+  className="mb-4 flex w-full items-center justify-center gap-3 rounded-xl border border-graphite-700 bg-graphite-950 px-4 py-3 text-sm font-medium text-bone transition hover:border-graphite-600 hover:bg-graphite-800 disabled:opacity-50"
+>
+  
+  Continue with Google
+</button>
+
+<div className="mb-4 flex items-center gap-3">
+  <div className="h-px flex-1 bg-graphite-700" />
+  <span className="text-[10px] uppercase tracking-widest text-bone/30">or</span>
+  <div className="h-px flex-1 bg-graphite-700" />
+</div>
+
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'signup' && (
