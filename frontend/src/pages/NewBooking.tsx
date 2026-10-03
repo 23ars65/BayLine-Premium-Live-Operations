@@ -26,7 +26,7 @@ interface Slot {
 }
 
 export function NewBooking() {
-  const { profile } = useAuth()
+  const { profile, session } = useAuth()
   const navigate = useNavigate()
 
   const [branches, setBranches] = useState<Branch[]>([])
@@ -391,21 +391,32 @@ export function NewBooking() {
     setShowBill(true)
   }
 
-  async function createBookingAfterPayment() {
-    if (
-      !profile ||
-      !pendingSlot ||
-      !vehicleId ||
-      !serviceId ||
-      !branchId ||
-      !pendingSlot.freeBays.length
-    ) {
-      throw new Error('Booking information is incomplete.')
-    }
+  async function createBookingAfterPayment(payment: {
+  razorpay_payment_id: string
+  razorpay_order_id: string
+}) {
+  if (
+    !profile ||
+    !session?.user.email ||
+    !pendingSlot ||
+    !vehicleId ||
+    !serviceId ||
+    !branchId ||
+    !pendingSlot.freeBays.length ||
+    !selectedService ||
+    !selectedVehicle ||
+    !selectedBranch
+  ) {
+    throw new Error('Booking information is incomplete.')
+  }
 
-    for (const bayId of pendingSlot.freeBays) {
-      const { error: insertError } =
-        await supabase.from('bookings').insert({
+  const invoiceNumber = `BL-${Date.now()}`
+
+  for (const bayId of pendingSlot.freeBays) {
+    const { data: booking, error: insertError } =
+      await supabase
+        .from('bookings')
+        .insert({
           customer_id: profile.id,
           vehicle_id: vehicleId,
           branch_id: branchId,
@@ -414,26 +425,95 @@ export function NewBooking() {
           scheduled_start: pendingSlot.start.toISOString(),
           scheduled_end: pendingSlot.end.toISOString(),
           status: 'confirmed',
+          payment_status: 'paid',
+          payment_amount: Number(selectedService.price),
+          razorpay_order_id: payment.razorpay_order_id,
+          razorpay_payment_id: payment.razorpay_payment_id,
+          invoice_number: invoiceNumber,
         })
+        .select('id')
+        .single()
 
-      if (!insertError) {
-        setShowBill(false)
-        setPendingSlot(null)
-        setConfirmed(true)
+    if (!insertError && booking) {
+      const invoiceResponse = await fetch(
+        'https://bayline-ai-backend.onrender.com/send-invoice',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            customer_name: profile.full_name,
+            customer_email: session.user.email,
+            booking_id: booking.id,
+            invoice_number: invoiceNumber,
+            vehicle: `${selectedVehicle.year} ${selectedVehicle.make} ${selectedVehicle.model} — ${selectedVehicle.plate_number}`,
+            service: selectedService.name,
+            branch: selectedBranch.name,
+            appointment_date: pendingSlot.start.toLocaleDateString(
+              'en-IN',
+              {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+              }
+            ),
+            appointment_time: pendingSlot.start.toLocaleTimeString(
+              'en-IN',
+              {
+                hour: '2-digit',
+                minute: '2-digit',
+              }
+            ),
+            amount: Number(selectedService.price),
+            razorpay_payment_id: payment.razorpay_payment_id,
+          }),
+        }
+      )
 
-        window.setTimeout(() => navigate('/dashboard'), 1500)
-        return
+      const invoiceData = await invoiceResponse.json()
+
+      if (!invoiceResponse.ok || !invoiceData.success) {
+        throw new Error(
+          invoiceData.error ||
+            'Booking was created, but the invoice email could not be sent.'
+        )
       }
 
-      if (insertError.code !== '23P01') {
-        throw new Error(insertError.message)
+      const { error: invoiceUpdateError } =
+        await supabase
+          .from('bookings')
+          .update({
+            invoice_sent_at: new Date().toISOString(),
+          })
+          .eq('id', booking.id)
+
+      if (invoiceUpdateError) {
+        throw new Error(
+          `Booking and invoice were successful, but invoice status could not be updated: ${invoiceUpdateError.message}`
+        )
       }
+
+      setShowBill(false)
+      setPendingSlot(null)
+      setConfirmed(true)
+
+      window.setTimeout(() => navigate('/dashboard'), 1500)
+      return
     }
 
-    throw new Error(
-      'That slot was just taken. Your payment was not converted into a booking. Please contact BayLine support before trying again.'
-    )
+    if (insertError?.code !== '23P01') {
+      throw new Error(
+        insertError?.message ||
+          'Unable to create your booking.'
+      )
+    }
   }
+
+  throw new Error(
+    'That slot was just taken. Your payment was successful, but the booking could not be created. Please contact BayLine support before trying again.'
+  )
+}
 
   async function handlePayment() {
     if (!selectedService || !pendingSlot) {
@@ -515,7 +595,10 @@ export function NewBooking() {
               )
             }
 
-            await createBookingAfterPayment()
+            await createBookingAfterPayment({
+  razorpay_payment_id: response.razorpay_payment_id,
+  razorpay_order_id: response.razorpay_order_id,
+})
           } catch (err) {
             setPaymentError(
               err instanceof Error
