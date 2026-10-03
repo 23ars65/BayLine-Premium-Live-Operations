@@ -1,3 +1,19 @@
+import io
+import base64
+from datetime import datetime
+import resend
+
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER, TA_RIGHT
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Paragraph,
+    Spacer,
+    Table,
+    TableStyle,
+)
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -8,6 +24,7 @@ import os
 import razorpay
 import hmac
 import hashlib
+
 
 
 # =========================================================
@@ -31,6 +48,17 @@ CORS(app)
 # =========================================================
 # RAZORPAY CONFIGURATION
 # =========================================================
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+RESEND_FROM_EMAIL = os.getenv(
+    "RESEND_FROM_EMAIL",
+    "BayLine Auto <billing@baylineauto.shop>"
+)
+
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
+    print("Resend email client initialized successfully.")
+else:
+    print("WARNING: Resend API key is missing.")
 
 RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
@@ -624,6 +652,7 @@ def verify_payment():
         }), 400
 
 
+
     # -----------------------------------------------------
     # GET PAYMENT DETAILS
     # -----------------------------------------------------
@@ -726,6 +755,463 @@ def verify_payment():
 
     })
 
+# =========================================================
+# GENERATE AND SEND BAYLINE INVOICE
+# =========================================================
+
+@app.route("/send-invoice", methods=["POST"])
+def send_invoice():
+
+    if not RESEND_API_KEY:
+        return jsonify({
+            "success": False,
+            "error": "Resend is not configured."
+        }), 500
+
+    data = request.get_json(silent=True)
+
+    if not data:
+        return jsonify({
+            "success": False,
+            "error": "Request must contain JSON data."
+        }), 400
+
+    required_fields = [
+        "customer_name",
+        "customer_email",
+        "booking_id",
+        "invoice_number",
+        "vehicle",
+        "service",
+        "branch",
+        "appointment_date",
+        "appointment_time",
+        "amount",
+        "razorpay_payment_id",
+    ]
+
+    missing = [
+        field for field in required_fields
+        if not data.get(field)
+    ]
+
+    if missing:
+        return jsonify({
+            "success": False,
+            "error": "Missing invoice information.",
+            "missing": missing
+        }), 400
+
+    try:
+
+        customer_name = str(data["customer_name"])
+        customer_email = str(data["customer_email"])
+        booking_id = str(data["booking_id"])
+        invoice_number = str(data["invoice_number"])
+        vehicle = str(data["vehicle"])
+        service = str(data["service"])
+        branch = str(data["branch"])
+        appointment_date = str(data["appointment_date"])
+        appointment_time = str(data["appointment_time"])
+        amount = float(data["amount"])
+        payment_id = str(data["razorpay_payment_id"])
+
+        # -------------------------------------------------
+        # CREATE PDF IN MEMORY
+        # -------------------------------------------------
+
+        pdf_buffer = io.BytesIO()
+
+        document = SimpleDocTemplate(
+            pdf_buffer,
+            pagesize=A4,
+            rightMargin=42,
+            leftMargin=42,
+            topMargin=42,
+            bottomMargin=42,
+        )
+
+        styles = getSampleStyleSheet()
+
+        title_style = ParagraphStyle(
+            "InvoiceTitle",
+            parent=styles["Title"],
+            fontName="Helvetica-Bold",
+            fontSize=24,
+            leading=28,
+            textColor=colors.HexColor("#211F1D"),
+            alignment=TA_CENTER,
+            spaceAfter=8,
+        )
+
+        heading_style = ParagraphStyle(
+            "InvoiceHeading",
+            parent=styles["Heading2"],
+            fontName="Helvetica-Bold",
+            fontSize=11,
+            textColor=colors.HexColor("#C97D14"),
+            spaceAfter=6,
+        )
+
+        normal_style = ParagraphStyle(
+            "InvoiceNormal",
+            parent=styles["Normal"],
+            fontName="Helvetica",
+            fontSize=9,
+            leading=14,
+            textColor=colors.HexColor("#3A3733"),
+        )
+
+        right_style = ParagraphStyle(
+            "InvoiceRight",
+            parent=normal_style,
+            alignment=TA_RIGHT,
+        )
+
+        story = []
+
+        # -------------------------------------------------
+        # HEADER
+        # -------------------------------------------------
+
+        story.append(
+            Paragraph("BAYLINE AUTO", title_style)
+        )
+
+        story.append(
+            Paragraph(
+                "Premium Vehicle Service & Operations",
+                ParagraphStyle(
+                    "Subtitle",
+                    parent=normal_style,
+                    alignment=TA_CENTER,
+                    textColor=colors.HexColor("#6B665F"),
+                )
+            )
+        )
+
+        story.append(Spacer(1, 22))
+
+        # -------------------------------------------------
+        # INVOICE INFO
+        # -------------------------------------------------
+
+        invoice_info = [
+            [
+                Paragraph("<b>INVOICE</b>", heading_style),
+                Paragraph("<b>PAYMENT STATUS</b>", heading_style),
+            ],
+            [
+                Paragraph(invoice_number, normal_style),
+                Paragraph(
+                    '<font color="#306363"><b>PAID</b></font>',
+                    normal_style
+                ),
+            ],
+            [
+                Paragraph(
+                    f"<b>Booking ID:</b><br/>{booking_id}",
+                    normal_style
+                ),
+                Paragraph(
+                    f"<b>Payment ID:</b><br/>{payment_id}",
+                    normal_style
+                ),
+            ],
+        ]
+
+        info_table = Table(
+            invoice_info,
+            colWidths=[250, 250],
+        )
+
+        info_table.setStyle(
+            TableStyle([
+                ("BACKGROUND", (0, 0), (-1, 0),
+                 colors.HexColor("#F2EFE9")),
+                ("BOX", (0, 0), (-1, -1), 0.7,
+                 colors.HexColor("#D6D0C7")),
+                ("INNERGRID", (0, 0), (-1, -1), 0.4,
+                 colors.HexColor("#E2DDD5")),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 12),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 12),
+                ("TOPPADDING", (0, 0), (-1, -1), 9),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 9),
+            ])
+        )
+
+        story.append(info_table)
+
+        story.append(Spacer(1, 22))
+
+        # -------------------------------------------------
+        # CUSTOMER
+        # -------------------------------------------------
+
+        story.append(
+            Paragraph("CUSTOMER", heading_style)
+        )
+
+        customer_table = Table(
+            [
+                [
+                    Paragraph(
+                        f"<b>{customer_name}</b><br/>{customer_email}",
+                        normal_style
+                    ),
+                    Paragraph(
+                        f"<b>Invoice Date</b><br/>"
+                        f"{datetime.now().strftime('%d %b %Y')}",
+                        right_style
+                    ),
+                ]
+            ],
+            colWidths=[350, 150],
+        )
+
+        customer_table.setStyle(
+            TableStyle([
+                ("BOX", (0, 0), (-1, -1), 0.7,
+                 colors.HexColor("#D6D0C7")),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 12),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 12),
+                ("TOPPADDING", (0, 0), (-1, -1), 10),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
+            ])
+        )
+
+        story.append(customer_table)
+
+        story.append(Spacer(1, 22))
+
+        # -------------------------------------------------
+        # SERVICE DETAILS
+        # -------------------------------------------------
+
+        story.append(
+            Paragraph("SERVICE DETAILS", heading_style)
+        )
+
+        service_table = Table(
+            [
+                ["Vehicle", "Service", "Service Center"],
+                [vehicle, service, branch],
+            ],
+            colWidths=[150, 175, 175],
+        )
+
+        service_table.setStyle(
+            TableStyle([
+                ("BACKGROUND", (0, 0), (-1, 0),
+                 colors.HexColor("#211F1D")),
+                ("TEXTCOLOR", (0, 0), (-1, 0),
+                 colors.white),
+                ("FONTNAME", (0, 0), (-1, 0),
+                 "Helvetica-Bold"),
+                ("FONTSIZE", (0, 0), (-1, -1), 9),
+                ("GRID", (0, 0), (-1, -1), 0.5,
+                 colors.HexColor("#D6D0C7")),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 10),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+                ("TOPPADDING", (0, 0), (-1, -1), 9),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 9),
+            ])
+        )
+
+        story.append(service_table)
+
+        story.append(Spacer(1, 10))
+
+        appointment_table = Table(
+            [
+                ["Appointment Date", "Appointment Time"],
+                [appointment_date, appointment_time],
+            ],
+            colWidths=[250, 250],
+        )
+
+        appointment_table.setStyle(
+            TableStyle([
+                ("BACKGROUND", (0, 0), (-1, 0),
+                 colors.HexColor("#F2EFE9")),
+                ("FONTNAME", (0, 0), (-1, 0),
+                 "Helvetica-Bold"),
+                ("GRID", (0, 0), (-1, -1), 0.5,
+                 colors.HexColor("#D6D0C7")),
+                ("FONTSIZE", (0, 0), (-1, -1), 9),
+                ("LEFTPADDING", (0, 0), (-1, -1), 10),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+                ("TOPPADDING", (0, 0), (-1, -1), 9),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 9),
+            ])
+        )
+
+        story.append(appointment_table)
+
+        story.append(Spacer(1, 25))
+
+        # -------------------------------------------------
+        # TOTAL
+        # -------------------------------------------------
+
+        total_table = Table(
+            [
+                [
+                    Paragraph(
+                        "<b>TOTAL PAID</b>",
+                        heading_style
+                    ),
+                    Paragraph(
+                        f"<b>₹{amount:,.2f}</b>",
+                        ParagraphStyle(
+                            "Total",
+                            parent=right_style,
+                            fontSize=18,
+                            textColor=colors.HexColor("#C97D14"),
+                        )
+                    ),
+                ]
+            ],
+            colWidths=[350, 150],
+        )
+
+        total_table.setStyle(
+            TableStyle([
+                ("BACKGROUND", (0, 0), (-1, -1),
+                 colors.HexColor("#F2EFE9")),
+                ("BOX", (0, 0), (-1, -1), 1,
+                 colors.HexColor("#C97D14")),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 14),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 14),
+                ("TOPPADDING", (0, 0), (-1, -1), 12),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 12),
+            ])
+        )
+
+        story.append(total_table)
+
+        story.append(Spacer(1, 30))
+
+        story.append(
+            Paragraph(
+                "Thank you for choosing BayLine Auto. "
+                "Please retain this invoice for your records.",
+                ParagraphStyle(
+                    "Footer",
+                    parent=normal_style,
+                    alignment=TA_CENTER,
+                    textColor=colors.HexColor("#6B665F"),
+                )
+            )
+        )
+
+        document.build(story)
+
+        pdf_bytes = pdf_buffer.getvalue()
+        pdf_buffer.close()
+
+        pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
+
+        # -------------------------------------------------
+        # SEND EMAIL THROUGH RESEND
+        # -------------------------------------------------
+
+        email_params = {
+            "from": RESEND_FROM_EMAIL,
+            "to": [customer_email],
+            "subject": f"BayLine Invoice {invoice_number}",
+            "html": f"""
+                <div style="font-family:Arial,sans-serif;
+                            max-width:620px;margin:auto;
+                            color:#211F1D">
+
+                    <h2 style="margin-bottom:4px;">
+                        BAY<span style="color:#E8961F;">LINE</span> AUTO
+                    </h2>
+
+                    <p style="color:#666;">
+                        Your service payment has been successfully received.
+                    </p>
+
+                    <div style="
+                        margin:24px 0;
+                        padding:20px;
+                        border:1px solid #ddd;
+                        border-radius:12px;
+                    ">
+
+                        <p>
+                            <strong>Invoice:</strong>
+                            {invoice_number}
+                        </p>
+
+                        <p>
+                            <strong>Service:</strong>
+                            {service}
+                        </p>
+
+                        <p>
+                            <strong>Vehicle:</strong>
+                            {vehicle}
+                        </p>
+
+                        <p>
+                            <strong>Service Center:</strong>
+                            {branch}
+                        </p>
+
+                        <p>
+                            <strong>Appointment:</strong>
+                            {appointment_date} · {appointment_time}
+                        </p>
+
+                        <p style="font-size:22px;">
+                            <strong>Paid: ₹{amount:,.2f}</strong>
+                        </p>
+
+                    </div>
+
+                    <p>
+                        Your official BayLine invoice is attached to this email.
+                    </p>
+
+                    <p style="color:#888;font-size:12px;">
+                        This is an automated transactional email from BayLine Auto.
+                    </p>
+
+                </div>
+            """,
+            "attachments": [
+                {
+                    "filename": f"{invoice_number}.pdf",
+                    "content": pdf_base64,
+                }
+            ],
+        }
+
+        email_response = resend.Emails.send(email_params)
+
+        return jsonify({
+            "success": True,
+            "invoice_number": invoice_number,
+            "email": customer_email,
+            "email_id": getattr(email_response, "id", None),
+        })
+
+    except Exception as e:
+
+        print("Invoice/email error:")
+        print(e)
+
+        return jsonify({
+            "success": False,
+            "error": "Unable to generate or send invoice.",
+            "details": str(e),
+        }), 500
 
 # =========================================================
 # START SERVER
