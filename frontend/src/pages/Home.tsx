@@ -22,7 +22,7 @@ const SERVICE_ICONS: Record<string, JSX.Element> = {
   'Battery Check & Replacement': <Zap className="h-6 w-6" />,
 }
 
-const HERO_IMG = 'https://images.unsplash.com/photo-1632823469850-1b7b1e8b7af4?auto=format&fit=crop&w=1600&q=85'
+const HERO_IMG = 'https://images.unsplash.com/photo-1625047509168-a7026f36de04?auto=format&fit=crop&w=1600&q=85'
 const CENTER_IMG_POOL = [
   'https://images.unsplash.com/photo-1625047509168-a7026f36de04?auto=format&fit=crop&w=900&q=80',
   'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80',

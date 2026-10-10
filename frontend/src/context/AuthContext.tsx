@@ -1,4 +1,12 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+  useCallback,
+} from 'react'
 import { Session } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabaseClient'
 import { Profile } from '../lib/types'
@@ -24,40 +32,134 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
 
-  async function loadProfile(userId: string) {
-    const { data } = await supabase.from('profiles').select('*').eq('id', userId).single()
-    setProfile(data as Profile | null)
-  }
+  const loadProfile = useCallback(async (userId: string) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single()
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session)
-      if (data.session) loadProfile(data.session.user.id)
-      setLoading(false)
-    })
+    if (error) {
+      console.error('Failed to load user profile:', error.message)
+      return null
+    }
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession)
-      if (newSession) {
-        loadProfile(newSession.user.id)
-      } else {
-        setProfile(null)
-      }
-    })
-
-    return () => listener.subscription.unsubscribe()
+    return data as Profile
   }, [])
 
-  async function signOut() {
-    await supabase.auth.signOut()
-  }
+  useEffect(() => {
+    let active = true
+    let requestId = 0
 
-  async function refreshProfile() {
-    if (session) await loadProfile(session.user.id)
-  }
+    async function syncSession(nextSession: Session | null) {
+      const currentRequest = ++requestId
+
+      setSession(nextSession)
+      setLoading(true)
+
+      if (!nextSession) {
+        setProfile(null)
+
+        if (active && currentRequest === requestId) {
+          setLoading(false)
+        }
+
+        return
+      }
+
+      try {
+        const nextProfile = await loadProfile(nextSession.user.id)
+
+        if (active && currentRequest === requestId) {
+          setProfile(nextProfile)
+        }
+      } catch (error) {
+        console.error('Unexpected profile loading error:', error)
+
+        if (active && currentRequest === requestId) {
+          setProfile(null)
+        }
+      } finally {
+        if (active && currentRequest === requestId) {
+          setLoading(false)
+        }
+      }
+    }
+
+    async function initializeSession() {
+      try {
+        const { data, error } = await supabase.auth.getSession()
+
+        if (error) {
+          throw error
+        }
+
+        if (active) {
+          await syncSession(data.session)
+        }
+      } catch (error) {
+        console.error('Failed to initialize authentication:', error)
+
+        if (active) {
+          setSession(null)
+          setProfile(null)
+          setLoading(false)
+        }
+      }
+    }
+
+    void initializeSession()
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      // Defer profile queries until the Supabase auth callback finishes.
+      Promise.resolve().then(() => {
+        if (active) {
+          void syncSession(nextSession)
+        }
+      })
+    })
+
+    return () => {
+      active = false
+      subscription.unsubscribe()
+    }
+  }, [loadProfile])
+
+  const signOut = useCallback(async () => {
+    const { error } = await supabase.auth.signOut()
+
+    if (error) {
+      throw error
+    }
+  }, [])
+
+  const refreshProfile = useCallback(async () => {
+    if (!session) {
+      setProfile(null)
+      return
+    }
+
+    const currentUserId = session.user.id
+    const nextProfile = await loadProfile(currentUserId)
+
+    // Avoid applying a profile to a different signed-in user.
+    if (nextProfile && session.user.id === currentUserId) {
+      setProfile(nextProfile)
+    }
+  }, [session, loadProfile])
 
   return (
-    <AuthContext.Provider value={{ session, profile, loading, signOut, refreshProfile }}>
+    <AuthContext.Provider
+      value={{
+        session,
+        profile,
+        loading,
+        signOut,
+        refreshProfile,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )
