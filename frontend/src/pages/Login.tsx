@@ -1,6 +1,12 @@
 import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowRight, CheckCircle2, LockKeyhole, Mail, KeyRound } from 'lucide-react'
+import {
+  ArrowRight,
+  CheckCircle2,
+  LockKeyhole,
+  Mail,
+  KeyRound,
+} from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
 import { Button } from '../components/UI'
 
@@ -42,24 +48,26 @@ export function Login() {
       listener.subscription.unsubscribe()
     }
   }, [])
-async function handleGoogleSignIn() {
-  setError(null)
-  setBusy(true)
 
-  try {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/app`,
-      },
-    })
+  async function handleGoogleSignIn() {
+    setError(null)
+    setBusy(true)
 
-    if (error) throw error
-  } catch (err) {
-    setError(err instanceof Error ? err.message : 'Google sign-in failed')
-    setBusy(false)
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/app`,
+        },
+      })
+
+      if (error) throw error
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Google sign-in failed')
+      setBusy(false)
+    }
   }
-}
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError(null)
@@ -74,7 +82,9 @@ async function handleGoogleSignIn() {
 
         if (error) throw error
 
-        setMessage('Password reset link sent. Check your email and open the link to create a new password.')
+        setMessage(
+          'Password reset link sent. Check your email and open the link to create a new password.',
+        )
         return
       }
 
@@ -123,6 +133,7 @@ async function handleGoogleSignIn() {
 
   const isForgot = mode === 'forgot'
   const isReset = mode === 'reset'
+  const showAuthOptions = !isForgot && !isReset
 
   return (
     <main className="relative flex min-h-[calc(100vh-72px)] items-center justify-center overflow-hidden px-5 py-12">
@@ -133,14 +144,26 @@ async function handleGoogleSignIn() {
       <div className="relative grid w-full max-w-5xl overflow-hidden rounded-3xl border border-graphite-700 bg-graphite-900/85 shadow-2xl lg:grid-cols-2">
         <section className="hidden flex-col justify-between border-r border-graphite-700 bg-gradient-to-br from-amber-500/[.11] via-transparent to-teal-500/[.06] p-10 lg:flex">
           <div>
-            <p className="text-xs font-mono uppercase tracking-[.22em] text-amber-500">BAYLINE</p>
-            <h1 className="mt-5 font-display text-5xl leading-[.98]">Service without the waiting.</h1>
-            <p className="mt-5 max-w-sm text-sm leading-6 text-bone/50">Find a center, see live bay availability and book your vehicle in minutes.</p>
+            <p className="text-xs font-mono uppercase tracking-[.22em] text-amber-500">
+              BAYLINE
+            </p>
+            <h1 className="mt-5 font-display text-5xl leading-[.98]">
+              Service without the waiting.
+            </h1>
+            <p className="mt-5 max-w-sm text-sm leading-6 text-bone/50">
+              Find a center, see live bay availability and book your vehicle in minutes.
+            </p>
           </div>
+
           <div className="space-y-3">
-            {['Real-time bay availability', 'Upfront service pricing', 'Live booking status'].map((x) => (
-              <div key={x} className="flex items-center gap-2 text-sm text-bone/65">
-                <CheckCircle2 size={16} className="text-teal-300" />{x}
+            {[
+              'Real-time bay availability',
+              'Upfront service pricing',
+              'Live booking status',
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-2 text-sm text-bone/65">
+                <CheckCircle2 size={16} className="text-teal-300" />
+                {item}
               </div>
             ))}
           </div>
@@ -148,9 +171,17 @@ async function handleGoogleSignIn() {
 
         <section className="p-6 sm:p-9">
           <div className="mb-8">
-            <p className="text-xs font-mono uppercase tracking-[.2em] text-amber-500">Welcome</p>
+            <p className="text-xs font-mono uppercase tracking-[.2em] text-amber-500">
+              Welcome
+            </p>
             <h2 className="mt-2 font-display text-3xl">
-              {isForgot ? 'Reset your password' : isReset ? 'Create a new password' : mode === 'signin' ? 'Sign in to BayLine' : 'Create your account'}
+              {isForgot
+                ? 'Reset your password'
+                : isReset
+                  ? 'Create a new password'
+                  : mode === 'signin'
+                    ? 'Sign in to BayLine'
+                    : 'Create your account'}
             </h2>
             <p className="mt-2 text-sm text-bone/40">
               {isForgot
@@ -163,87 +194,197 @@ async function handleGoogleSignIn() {
             </p>
           </div>
 
-          {!isForgot && !isReset && (
-            <div className="mb-6 grid grid-cols-2 rounded-xl border border-graphite-700 p-1">
-              <button onClick={() => { setMode('signin'); setError(null); setMessage(null) }} className={`rounded-lg py-2 text-sm font-medium transition ${mode === 'signin' ? 'bg-amber-500 text-graphite-950' : 'text-bone/50'}`}>Sign in</button>
-              <button onClick={() => { setMode('signup'); setError(null); setMessage(null) }} className={`rounded-lg py-2 text-sm font-medium transition ${mode === 'signup' ? 'bg-amber-500 text-graphite-950' : 'text-bone/50'}`}>Create account</button>
-            </div>
+          {showAuthOptions && (
+            <>
+              <div className="mb-6 grid grid-cols-2 rounded-xl border border-graphite-700 p-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode('signin')
+                    setError(null)
+                    setMessage(null)
+                  }}
+                  className={`rounded-lg py-2 text-sm font-medium transition ${
+                    mode === 'signin'
+                      ? 'bg-amber-500 text-graphite-950'
+                      : 'text-bone/50'
+                  }`}
+                >
+                  Sign in
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode('signup')
+                    setError(null)
+                    setMessage(null)
+                  }}
+                  className={`rounded-lg py-2 text-sm font-medium transition ${
+                    mode === 'signup'
+                      ? 'bg-amber-500 text-graphite-950'
+                      : 'text-bone/50'
+                  }`}
+                >
+                  Create account
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                disabled={busy}
+                className="mb-4 flex w-full items-center justify-center gap-3 rounded-xl border border-graphite-700 bg-graphite-950 px-4 py-3 text-sm font-medium text-bone transition hover:border-graphite-600 hover:bg-graphite-800 disabled:opacity-50"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 48 48"
+                  className="h-5 w-5 shrink-0"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path
+                    fill="#4285F4"
+                    d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.8 6.1-15Z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M24 44c5.5 0 10.1-1.8 13.5-4.8l-6.6-5.1c-1.8 1.2-4.1 2-6.9 2-5.3 0-9.8-3.6-11.4-8.4H5.8v5.3A20 20 0 0 0 24 44Z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M12.6 27.7a12 12 0 0 1 0-7.4V15H5.8a20 20 0 0 0 0 18Z"
+                  />
+                  <path
+                    fill="#EA4335"
+                    d="M24 11.9c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 5.9 29.5 4 24 4A20 20 0 0 0 5.8 15l6.8 5.3c1.6-4.8 6.1-8.4 11.4-8.4Z"
+                  />
+                </svg>
+                <span>Continue with Google</span>
+              </button>
+
+              <div className="mb-4 flex items-center gap-3">
+                <div className="h-px flex-1 bg-graphite-700" />
+                <span className="text-[10px] uppercase tracking-widest text-bone/30">
+                  or
+                </span>
+                <div className="h-px flex-1 bg-graphite-700" />
+              </div>
+            </>
           )}
-<button
-  type="button"
-  onClick={handleGoogleSignIn}
-  disabled={busy}
-  className="mb-4 flex w-full items-center justify-center gap-3 rounded-xl border border-graphite-700 bg-graphite-950 px-4 py-3 text-sm font-medium text-bone transition hover:border-graphite-600 hover:bg-graphite-800 disabled:opacity-50"
->
-  
-  Continue with Google
-</button>
-
-<div className="mb-4 flex items-center gap-3">
-  <div className="h-px flex-1 bg-graphite-700" />
-  <span className="text-[10px] uppercase tracking-widest text-bone/30">or</span>
-  <div className="h-px flex-1 bg-graphite-700" />
-</div>
-
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'signup' && (
               <Field label="Full name">
-                <input required value={fullName} onChange={(e) => setFullName(e.target.value)} className={inputCls} placeholder="Your name" />
+                <input
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className={inputCls}
+                  placeholder="Your name"
+                />
               </Field>
             )}
 
             <Field label="Email">
-              <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} placeholder="you@example.com" />
+              <input
+                required
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={inputCls}
+                placeholder="you@example.com"
+              />
             </Field>
 
-          {(mode === 'signin' || mode === 'signup') && (
-  <Field label="Password">
-    <input
-      required
-      type="password"
-      minLength={6}
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-      className={inputCls}
-      placeholder="••••••••"
-    />
-  </Field>
-)}
+            {(mode === 'signin' || mode === 'signup') && (
+              <Field label="Password">
+                <input
+                  required
+                  type="password"
+                  minLength={6}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={inputCls}
+                  placeholder="••••••••"
+                />
+              </Field>
+            )}
 
-{mode === 'signin' && (
-  <div className="-mt-1 text-right">
-    <button
-      type="button"
-      onClick={() => {
-        setMode('forgot')
-        setError(null)
-        setMessage(null)
-      }}
-      className="text-xs font-medium text-amber-400 transition hover:text-amber-300"
-    >
-      Forgot password?
-    </button>
-  </div>
-)}
+            {mode === 'signin' && (
+              <div className="-mt-1 text-right">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode('forgot')
+                    setError(null)
+                    setMessage(null)
+                  }}
+                  className="text-xs font-medium text-amber-400 transition hover:text-amber-300"
+                >
+                  Forgot password?
+                </button>
+              </div>
+            )}
 
             {mode === 'reset' && (
               <>
                 <Field label="New password">
-                  <input required type="password" minLength={6} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className={inputCls} placeholder="••••••••" />
+                  <input
+                    required
+                    type="password"
+                    minLength={6}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className={inputCls}
+                    placeholder="••••••••"
+                  />
                 </Field>
                 <Field label="Confirm new password">
-                  <input required type="password" minLength={6} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={inputCls} placeholder="••••••••" />
+                  <input
+                    required
+                    type="password"
+                    minLength={6}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className={inputCls}
+                    placeholder="••••••••"
+                  />
                 </Field>
               </>
             )}
 
-            {error && <p className="rounded-xl border border-alert-500/30 bg-alert-500/10 p-3 text-sm text-alert-300">{error}</p>}
-            {message && <p className="rounded-xl border border-teal-500/30 bg-teal-500/10 p-3 text-sm text-teal-300">{message}</p>}
+            {error && (
+              <p className="rounded-xl border border-alert-500/30 bg-alert-500/10 p-3 text-sm text-alert-300">
+                {error}
+              </p>
+            )}
+            {message && (
+              <p className="rounded-xl border border-teal-500/30 bg-teal-500/10 p-3 text-sm text-teal-300">
+                {message}
+              </p>
+            )}
 
-            <Button type="submit" disabled={busy} className="flex w-full items-center justify-center gap-2 py-3">
-              {isForgot ? <Mail size={16} /> : isReset ? <KeyRound size={16} /> : <LockKeyhole size={16} />}
-              {busy ? 'Please wait…' : isForgot ? 'Send reset link' : isReset ? 'Update password' : mode === 'signin' ? 'Sign in' : 'Create account'}
+            <Button
+              type="submit"
+              disabled={busy}
+              className="flex w-full items-center justify-center gap-2 py-3"
+            >
+              {isForgot ? (
+                <Mail size={16} />
+              ) : isReset ? (
+                <KeyRound size={16} />
+              ) : (
+                <LockKeyhole size={16} />
+              )}
+              {busy
+                ? 'Please wait…'
+                : isForgot
+                  ? 'Send reset link'
+                  : isReset
+                    ? 'Update password'
+                    : mode === 'signin'
+                      ? 'Sign in'
+                      : 'Create account'}
               <ArrowRight size={16} />
             </Button>
           </form>
@@ -251,22 +392,42 @@ async function handleGoogleSignIn() {
           {(isForgot || isReset) && (
             <button
               type="button"
-              onClick={() => { setMode('signin'); setError(null); setMessage(null) }}
+              onClick={() => {
+                setMode('signin')
+                setError(null)
+                setMessage(null)
+              }}
               className="mt-5 flex w-full items-center justify-center text-xs text-bone/40 transition hover:text-bone/70"
             >
               ← Back to sign in
             </button>
           )}
 
-          <p className="mt-6 text-center text-[11px] leading-5 text-bone/30">New accounts are created as customer accounts. Staff/admin roles can be assigned from Supabase.</p>
+          <p className="mt-6 text-center text-[11px] leading-5 text-bone/30">
+            New accounts are created as customer accounts. Staff/admin roles can be assigned from Supabase.
+          </p>
         </section>
       </div>
     </main>
   )
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return <label className="block"><span className="mb-1.5 block text-[10px] uppercase tracking-widest text-bone/35">{label}</span>{children}</label>
+function Field({
+  label,
+  children,
+}: {
+  label: string
+  children: React.ReactNode
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-[10px] uppercase tracking-widest text-bone/35">
+        {label}
+      </span>
+      {children}
+    </label>
+  )
 }
 
-const inputCls = 'w-full rounded-xl border border-graphite-700 bg-graphite-950 px-3 py-3 text-sm outline-none transition focus:border-amber-500'
+const inputCls =
+  'w-full rounded-xl border border-graphite-700 bg-graphite-950 px-3 py-3 text-sm outline-none transition focus:border-amber-500'
