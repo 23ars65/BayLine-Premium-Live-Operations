@@ -997,7 +997,15 @@ def send_invoice():
         service_table = Table(
             [
                 ["Vehicle", "Service", "Service Center"],
-                [vehicle, service, branch],
+                [
+                    Paragraph(
+                        str(value).replace("&", "&amp;")
+                                  .replace("<", "&lt;")
+                                  .replace(">", "&gt;"),
+                        normal_style,
+                    )
+                    for value in (vehicle, service, branch)
+                ],
             ],
             colWidths=[150, 175, 175],
         )
@@ -1065,7 +1073,7 @@ def send_invoice():
                         heading_style
                     ),
                     Paragraph(
-                        f"<b>₹{amount:,.2f}</b>",
+                        f"<b>Rs {amount:,.2f}</b>",
                         ParagraphStyle(
                             "Total",
                             parent=right_style,
@@ -1170,7 +1178,7 @@ def send_invoice():
                         </p>
 
                         <p style="font-size:22px;">
-                            <strong>Paid: ₹{amount:,.2f}</strong>
+                            <strong>Paid: Rs {amount:,.2f}</strong>
                         </p>
 
                     </div>
