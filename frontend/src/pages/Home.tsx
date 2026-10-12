@@ -11,7 +11,7 @@ import { Branch, ServiceItem } from '../lib/types'
 import { Button, Card } from '../components/UI'
 import { BranchesMap } from '../components/BranchesMap'
 import { EnquiryForm } from '../components/EnquiryForm'
-import { Footer } from '../components/Footer'
+
 
 const SERVICE_ICONS: Record<string, JSX.Element> = {
   'Oil Change': <Droplet className="h-6 w-6" />,
@@ -333,7 +333,7 @@ useEffect(() => {
 
       <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-6"><FadeIn><div className="relative overflow-hidden rounded-[1.5rem] border border-amber-500/25 bg-gradient-to-br from-amber-500/15 via-graphite-800 to-teal-500/10 px-6 py-12 text-center sm:px-10"><div className="pointer-events-none absolute inset-0 bayline-grid opacity-20" /><div className="relative"><BatteryCharging className="mx-auto text-amber-400" size={25} /><h2 className="mt-4 font-display text-4xl text-bone sm:text-5xl">Ready when your car is.</h2><p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-bone/50">Create your account, add a vehicle and enter the full BayLine booking experience.</p><Link to="/login" className="mt-7 inline-block"><Button className="flex items-center gap-2 px-6 py-3">Enter BayLine <ArrowRight size={17} /></Button></Link></div></div></FadeIn></section>
 
-      <Footer />
+      
     </div>
   )
 }
