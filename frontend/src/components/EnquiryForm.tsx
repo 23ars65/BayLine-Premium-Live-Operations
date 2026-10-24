@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'motion/react'
 import { CheckCircle2, Loader2, Send } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
 import { Branch } from '../lib/types'

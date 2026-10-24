@@ -180,8 +180,9 @@ export function LiveOperations() {
   )
 
   return (
-    <main className="mx-auto max-w-7xl px-5 py-10 sm:px-6 sm:py-14">
-      <div className="mb-8 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+   <main className="bl-dashboard relative mx-auto max-w-[1600px] overflow-hidden px-4 py-7 sm:px-6 sm:py-10 lg:px-9">
+  <div className="pointer-events-none absolute right-0 top-0 -z-0 h-72 w-72 rounded-full bg-amber-500/[0.045] blur-[100px]" />
+      <div className="relative z-10 mb-8 flex flex-col justify-between gap-6 rounded-2xl border border-white/[0.07] bg-[#171816]/90 p-5 shadow-2xl sm:p-7 lg:flex-row lg:items-end">
         <div>
           <div className="flex items-center gap-2">
             <p className="text-xs font-mono uppercase tracking-[.22em] text-amber-500">
@@ -231,7 +232,7 @@ export function LiveOperations() {
         </div>
       </div>
 
-      <div className="mb-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="relative z-10 mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Metric
           label="Today's bookings"
           value={todayBookings.length}

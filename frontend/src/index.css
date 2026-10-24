@@ -1,286 +1,476 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* =========================================================
-   BAYLINE — GLOBAL STYLES
-   Phase 1 Premium Automotive UI
-   ========================================================= */
+/* ============================================================
+   BAYLINE — Motion-inspired global design system
+   Compact typography, graphite surfaces, restrained lime accent
+   ============================================================ */
 
-/* ---------------------------------------------------------
-   GLOBAL
-   --------------------------------------------------------- */
+:root {
+  color-scheme: dark;
+  --bl-bg: #080908;
+  --bl-surface: #101110;
+  --bl-surface-raised: #171917;
+  --bl-border: rgba(255, 255, 255, 0.12);
+  --bl-border-soft: rgba(255, 255, 255, 0.075);
+  --bl-text: #f5f5f0;
+  --bl-muted: #a0a19b;
+  --bl-accent: #d5ff45;
+  --bl-radius: 16px;
+  --bl-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --bl-shadow: 0 20px 60px rgba(0, 0, 0, 0.24);
+}
 
-html,
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #454741 var(--bl-bg);
+  background: var(--bl-bg);
+}
+
 body,
 #root {
   min-height: 100%;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
-  @apply bg-graphite-950 text-bone font-body antialiased;
-
+  margin: 0;
   background:
-    radial-gradient(
-      circle at 12% 0%,
-      rgba(242, 169, 59, 0.08),
-      transparent 34%
-    ),
-    radial-gradient(
-      circle at 100% 18%,
-      rgba(63, 124, 124, 0.09),
-      transparent 38%
-    ),
-    #0d0d0c;
+    radial-gradient(ellipse at 12% -10%, rgba(213, 255, 69, 0.035), transparent 34rem),
+    var(--bl-bg);
+  color: var(--bl-text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* ---------------------------------------------------------
-   TEXT SELECTION
-   --------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+a[href] {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 4px;
+}
 
 ::selection {
-  background: rgba(232, 150, 31, 0.28);
-  color: #f2efe9;
+  color: #11130b;
+  background: rgba(213, 255, 69, 0.82);
 }
 
-/* ---------------------------------------------------------
-   LICENSE PLATE / MONOSPACE TEXT
-   --------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--bl-accent);
+  outline-offset: 3px;
+}
 
+input,
+select,
+textarea {
+  accent-color: var(--bl-accent);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(245, 245, 240, 0.38);
+}
+
+hr {
+  border-color: var(--bl-border-soft);
+}
+
+/* Typography: compact and neutral rather than oversized display type */
+main.overflow-hidden {
+  --bl-accent: #d5ff45;
+  --bl-background: #080908;
+  --bl-surface: #101110;
+  --bl-border: rgba(255, 255, 255, 0.12);
+  background: var(--bl-background) !important;
+  color: var(--bl-text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+}
+
+main.overflow-hidden .font-display {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+main.overflow-hidden .bl-studio-title,
+main.overflow-hidden h1.bl-studio-title {
+  font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(2.15rem, 4.4vw, 3.75rem) !important;
+  font-weight: 550 !important;
+  line-height: 1.04 !important;
+  letter-spacing: -0.065em !important;
+  text-wrap: balance;
+}
+
+main.overflow-hidden h2 {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+  font-size: clamp(1.45rem, 2.5vw, 2.1rem);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+main.overflow-hidden h3 {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 1rem;
+  font-weight: 550;
+  line-height: 1.4;
+  letter-spacing: -0.025em;
+}
+
+main.overflow-hidden p {
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+main.overflow-hidden nav a,
+main.overflow-hidden button {
+  font-size: 0.8125rem;
+}
+
+main.overflow-hidden section {
+  scroll-margin-top: 80px;
+}
+
+main.overflow-hidden .bl-studio-hero {
+  min-height: 690px;
+  isolation: isolate;
+}
+
+main.overflow-hidden .bl-studio-hero > div.relative.mx-auto {
+  min-height: 690px;
+}
+
+/* Theme accents and surfaces */
+main.overflow-hidden .text-amber-400,
+main.overflow-hidden .text-amber-500 {
+  color: var(--bl-accent) !important;
+}
+
+main.overflow-hidden .bg-amber-400,
+main.overflow-hidden .bg-amber-500 {
+  background-color: var(--bl-accent) !important;
+}
+
+main.overflow-hidden .border-amber-400,
+main.overflow-hidden .border-amber-500 {
+  border-color: var(--bl-accent) !important;
+}
+
+main.overflow-hidden .bg-graphite-950 {
+  background-color: var(--bl-background) !important;
+}
+
+main.overflow-hidden .bg-graphite-900 {
+  background-color: var(--bl-surface) !important;
+}
+
+main.overflow-hidden .rounded-2xl,
+main.overflow-hidden .rounded-3xl {
+  border-color: var(--bl-border);
+}
+
+/* Existing BayLine utility classes */
 .plate {
-  @apply font-mono tracking-widest uppercase;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
-
-/* ---------------------------------------------------------
-   BAYLINE BACKGROUND GRID
-   --------------------------------------------------------- */
 
 .bayline-grid {
   background-image:
-    linear-gradient(
-      rgba(255, 255, 255, 0.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.035) 1px,
-      transparent 1px
-    );
-
-  background-size: 36px 36px;
-
-  mask-image: linear-gradient(
-    to bottom,
-    black,
-    transparent 85%
-  );
-
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    black,
-    transparent 85%
-  );
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 88%);
 }
-
-/* ---------------------------------------------------------
-   GLASS EFFECT
-   --------------------------------------------------------- */
 
 .bayline-glass {
-  background: rgba(24, 24, 22, 0.72);
-
-  border: 1px solid rgba(255, 255, 255, 0.075);
-
-  box-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.28);
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: rgba(16, 17, 16, 0.82);
+  border: 1px solid var(--bl-border-soft);
+  box-shadow: var(--bl-shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
 }
 
-/* ---------------------------------------------------------
-   CARD
-   --------------------------------------------------------- */
-
-.bayline-card {
-  @apply rounded-2xl border border-graphite-700 bg-graphite-800/50;
-
-  box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.18);
+.bayline-card,
+.bl-panel {
+  min-width: 0;
+  border: 1px solid var(--bl-border-soft);
+  border-radius: var(--bl-radius);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.025), transparent 62%), var(--bl-surface);
+  box-shadow: var(--bl-shadow);
+  transition: border-color 280ms var(--bl-ease), background-color 280ms var(--bl-ease), box-shadow 280ms var(--bl-ease), transform 280ms var(--bl-ease);
 }
-
-/* ---------------------------------------------------------
-   CARD HOVER
-   --------------------------------------------------------- */
 
 .bayline-hover {
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease,
-    background 0.25s ease;
+  transition: transform 280ms var(--bl-ease), border-color 280ms var(--bl-ease), box-shadow 280ms var(--bl-ease), background-color 280ms var(--bl-ease);
+}
+
+.bayline-hover:hover,
+.bayline-card:hover,
+.bl-panel:hover {
+  border-color: rgba(213, 255, 69, 0.24);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.28);
 }
 
 .bayline-hover:hover {
-  transform: translateY(-4px);
-
-  border-color: rgba(242, 169, 59, 0.42);
-
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
 }
 
-/* ---------------------------------------------------------
-   BUTTON
-   --------------------------------------------------------- */
-
-.bayline-button {
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+.bayline-button,
+.bl-button {
+  transition: transform 220ms var(--bl-ease), box-shadow 220ms var(--bl-ease), background-color 220ms var(--bl-ease), border-color 220ms var(--bl-ease), filter 220ms var(--bl-ease);
 }
 
-.bayline-button:hover {
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 12px 32px rgba(242, 169, 59, 0.18);
+.bayline-button:hover,
+.bl-button:hover {
+  filter: brightness(1.05);
 }
 
-.bayline-button:active {
-  transform: translateY(0);
+.bayline-button:active,
+.bl-button:active {
+  transform: scale(0.985);
 }
 
-/* ---------------------------------------------------------
-   MODAL
-   --------------------------------------------------------- */
+.bl-eyebrow {
+  color: var(--bl-accent);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.bl-divider {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, var(--bl-border), rgba(255, 255, 255, 0.02));
+}
+
+.bl-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.bl-metric {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+}
+
+.bl-input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--bl-border);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.22);
+  padding: 0.7rem 0.85rem;
+  color: var(--bl-text);
+  transition: border-color 180ms var(--bl-ease), box-shadow 180ms var(--bl-ease), background-color 180ms var(--bl-ease);
+}
+
+.bl-input:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.bl-input:focus {
+  border-color: rgba(213, 255, 69, 0.6);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(213, 255, 69, 0.08);
+}
+
+.bl-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.bl-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.bl-table th {
+  padding: 0.85rem 1rem;
+  color: var(--bl-muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.66rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bl-table td {
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+  vertical-align: middle;
+}
+
+.bl-table tbody tr {
+  transition: background-color 180ms ease;
+}
+
+.bl-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.bl-chart-grid {
+  stroke: rgba(255, 255, 255, 0.075);
+  stroke-dasharray: 3 5;
+}
+
+.bl-amber-glow {
+  box-shadow: 0 0 28px rgba(213, 255, 69, 0.08);
+}
+
+.bl-dashboard {
+  min-height: 70vh;
+  color: var(--bl-text);
+}
+
+.status-live,
+.bayline-pulse {
+  animation: bl-status-pulse 2.2s ease-out infinite;
+}
+
+@keyframes bl-status-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(213, 255, 69, 0.35); }
+  70% { box-shadow: 0 0 0 7px rgba(213, 255, 69, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(213, 255, 69, 0); }
+}
 
 .bayline-modal {
-  animation: modalIn 0.25s ease-out both;
+  animation: bl-modal-in 280ms var(--bl-ease) both;
 }
 
-/* ---------------------------------------------------------
-   FADE UP
-   --------------------------------------------------------- */
+@keyframes bl-modal-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
 
 .bayline-fade-up {
-  animation: fadeUp 0.65s ease-out both;
+  animation: bl-fade-up 650ms var(--bl-ease) both;
 }
 
-/* ---------------------------------------------------------
-   LIVE PULSE
-   --------------------------------------------------------- */
-
-.bayline-pulse {
-  animation: pulse-ring 2s infinite;
-}
-
-.status-live {
-  animation: pulse-ring 2s infinite;
-}
-
-/* ---------------------------------------------------------
-   MODAL ANIMATION
-   --------------------------------------------------------- */
-
-@keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.985);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* ---------------------------------------------------------
-   FADE UP ANIMATION
-   --------------------------------------------------------- */
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ---------------------------------------------------------
-   PULSE RING
-   --------------------------------------------------------- */
-
-@keyframes pulse-ring {
-  0% {
-    box-shadow:
-      0 0 0 0 rgba(242, 169, 59, 0.5);
-  }
-
-  70% {
-    box-shadow:
-      0 0 0 8px rgba(242, 169, 59, 0);
-  }
-
-  100% {
-    box-shadow:
-      0 0 0 0 rgba(242, 169, 59, 0);
-  }
-}
-
-/* ---------------------------------------------------------
-   SUCCESS POP
-   --------------------------------------------------------- */
-
-@keyframes successPop {
-  0% {
-    transform: scale(0.55);
-    opacity: 0;
-  }
-
-  70% {
-    transform: scale(1.08);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+@keyframes bl-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .success-pop {
-  animation:
-    successPop 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: bl-success-pop 550ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-/* ---------------------------------------------------------
-   LEAFLET MAP
-   --------------------------------------------------------- */
+@keyframes bl-success-pop {
+  0% { transform: scale(0.75); opacity: 0; }
+  70% { transform: scale(1.04); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
 
+/* Smooth rotating hero photography. React should keep outgoing and incoming
+   images mounted together for a true crossfade; this class animates each image. */
+.bl-hero-image-transition {
+  animation: bayline-hero-image-fade 1.4s var(--bl-ease) both;
+  backface-visibility: hidden;
+  will-change: opacity, transform;
+}
+
+@keyframes bayline-hero-image-fade {
+  from { opacity: 0; transform: scale(1.025); filter: brightness(0.88); }
+  to { opacity: 1; transform: scale(1); filter: brightness(1); }
+}
+
+/* BayLine Centres: same compact typography as the homepage */
+main.overflow-hidden #centers {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+main.overflow-hidden #centers h1,
+main.overflow-hidden #centers h2,
+main.overflow-hidden #centers h3,
+main.overflow-hidden #centers .font-display {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.045em;
+}
+
+main.overflow-hidden #centers h2 {
+  font-size: clamp(1.45rem, 2.4vw, 1.9rem) !important;
+  line-height: 1.2;
+}
+
+main.overflow-hidden #centers h3 {
+  font-size: 0.95rem !important;
+  line-height: 1.45;
+}
+
+main.overflow-hidden #centers p {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+/* Leaflet map */
 .leaflet-container {
   font-family: inherit;
-  background: #151513;
+  background: #101110;
 }
 
 .leaflet-control-zoom a {
-  background: #1d1d1a !important;
-  color: #f2a93b !important;
-  border-color: #3a3a34 !important;
+  background: #171917 !important;
+  color: var(--bl-accent) !important;
+  border-color: #343630 !important;
 }
 
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background: #f5f3ed;
+  background: #f5f5f0;
 }
 
 .leaflet-popup-content {
@@ -292,29 +482,107 @@ body {
   border: 0;
 }
 
-/* ---------------------------------------------------------
-   ACCESSIBILITY
-   --------------------------------------------------------- */
-
-:focus-visible {
-  outline: 2px solid #f2a93b;
-  outline-offset: 3px;
+/* Floating WhatsApp contact */
+.bayline-whatsapp {
+  position: fixed;
+  right: 22px;
+  bottom: 88px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: #16865a;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+  transition: transform 180ms var(--bl-ease), background-color 180ms var(--bl-ease);
 }
 
-/* ---------------------------------------------------------
-   REDUCED MOTION
-   --------------------------------------------------------- */
+.bayline-whatsapp:hover {
+  transform: translateY(-3px);
+  background: #11734c;
+}
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+/* Responsive refinement */
+@media (max-width: 640px) {
+  :root { --bl-radius: 14px; }
+
+  main.overflow-hidden .bl-studio-title,
+  main.overflow-hidden h1.bl-studio-title {
+    font-size: clamp(2rem, 8.8vw, 2.8rem) !important;
+    line-height: 1.06 !important;
+    letter-spacing: -0.055em !important;
   }
 
+  main.overflow-hidden h2 { font-size: 1.45rem; }
+
+  main.overflow-hidden .bl-studio-hero,
+  main.overflow-hidden .bl-studio-hero > div.relative.mx-auto {
+    min-height: auto;
+  }
+
+  main.overflow-hidden #centers h2 { font-size: 1.4rem !important; }
+
+  .bl-table th,
+  .bl-table td { padding: 0.75rem; }
+
+  .bayline-hover:hover { transform: none; }
+
+  .bayline-whatsapp {
+    right: 14px;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    min-height: 48px;
+    padding: 0 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+/* BayLine — premium customer dashboard typography */
+.customer-dashboard h1,
+.customer-dashboard h2,
+.customer-dashboard h3 {
+  font-family: "Manrope", sans-serif;
+  letter-spacing: -0.035em;
+}
+
+.customer-dashboard button,
+.customer-dashboard input,
+.customer-dashboard select,
+.customer-dashboard textarea {
+  font-family: "DM Sans", sans-serif;
+}
+/* Booking page typography */
+main:has(.bayline-modal) {
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+main:has(.bayline-modal) h1,
+main:has(.bayline-modal) h2,
+main:has(.bayline-modal) h3,
+main:has(.bayline-modal) .font-display {
+  font-family: "Manrope", ui-sans-serif, system-ui, sans-serif !important;
+  letter-spacing: -0.035em;
+}
+
+main:has(.bayline-modal) input,
+main:has(.bayline-modal) select,
+main:has(.bayline-modal) textarea,
+main:has(.bayline-modal) button {
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
