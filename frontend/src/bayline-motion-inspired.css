@@ -1,0 +1,266 @@
+/* BAYLINE / MOTION-INSPIRED VISUAL PASS
+   Append this file to src/index.css (or import it after index.css).
+   This is a visual layer: it deliberately leaves existing React, Supabase,
+   booking, map, enquiry and Saarthi components intact. */
+
+:root {
+  --bl-ink: #090a0b;
+  --bl-panel: #101214;
+  --bl-line: rgba(255,255,255,.12);
+  --bl-muted: #92969d;
+  --bl-white: #f5f5f3;
+  --bl-accent: #d9ff62;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bl-ink) !important;
+  color: var(--bl-white);
+  font-feature-settings: "ss01" on;
+}
+body::selection { background: var(--bl-accent); color: #080909; }
+#root { min-height: 100vh; }
+
+/* Break out of the old narrow, centered marketing layout. */
+main.overflow-hidden {
+  width: 100%;
+  max-width: none !important;
+  overflow: clip;
+  background: var(--bl-ink) !important;
+  color: var(--bl-white) !important;
+}
+main.overflow-hidden section .mx-auto.max-w-7xl,
+main.overflow-hidden section .mx-auto.max-w-6xl,
+main.overflow-hidden section .mx-auto.max-w-5xl {
+  max-width: 1440px !important;
+}
+main.overflow-hidden section .mx-auto.max-w-7xl,
+main.overflow-hidden section .mx-auto.max-w-6xl {
+  padding-left: clamp(22px, 5.4vw, 88px);
+  padding-right: clamp(22px, 5.4vw, 88px);
+}
+
+/* Crisp, high-contrast typography in the spirit of Motion's product pages. */
+main.overflow-hidden h1 {
+  max-width: 1120px;
+  font-size: clamp(3.1rem, 6.5vw, 6.8rem) !important;
+  line-height: .91 !important;
+  letter-spacing: -.085em !important;
+  font-weight: 650;
+  text-wrap: balance;
+}
+main.overflow-hidden h2 {
+  font-size: clamp(2rem, 4.2vw, 4rem) !important;
+  line-height: .98 !important;
+  letter-spacing: -.065em !important;
+  text-wrap: balance;
+}
+main.overflow-hidden h3 {
+  letter-spacing: -.045em;
+}
+main.overflow-hidden p {
+  text-wrap: pretty;
+}
+
+/* Dark product canvas and a restrained acid-lime accent replace the old amber wash. */
+main.overflow-hidden .text-amber-400,
+main.overflow-hidden .text-amber-300,
+main.overflow-hidden .text-amber-500 { color: var(--bl-accent) !important; }
+main.overflow-hidden .bg-amber-500,
+main.overflow-hidden .bg-amber-400 { background-color: var(--bl-accent) !important; }
+main.overflow-hidden .border-amber-500\/35,
+main.overflow-hidden .border-amber-400\/25,
+main.overflow-hidden .border-amber-500\/30 { border-color: rgba(217,255,98,.35) !important; }
+main.overflow-hidden .text-bone { color: var(--bl-white) !important; }
+main.overflow-hidden .bg-graphite-950 { background-color: var(--bl-ink) !important; }
+main.overflow-hidden .bg-graphite-900 { background-color: var(--bl-panel) !important; }
+
+/* Hero: full-bleed editorial, not a small centered banner. */
+main.overflow-hidden > section:first-of-type {
+  min-height: min(900px, 100svh);
+  display: flex;
+  align-items: center;
+  border-bottom-color: var(--bl-line) !important;
+}
+main.overflow-hidden > section:first-of-type > div:not(.absolute) {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: clamp(100px, 12vh, 160px) clamp(22px, 5.4vw, 88px) 80px;
+}
+main.overflow-hidden > section:first-of-type img {
+  object-position: center 58%;
+  filter: saturate(.78) contrast(1.08);
+}
+
+main.overflow-hidden > section:first-of-type > .bl-studio-backdrop img {
+  opacity: .38 !important;
+}
+main.overflow-hidden > section:first-of-type::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(9,10,11,.92) 0%, rgba(9,10,11,.62) 56%, rgba(9,10,11,.16) 100%),
+    linear-gradient(0deg, var(--bl-ink), transparent 38%);
+}
+main.overflow-hidden > section:first-of-type h1 { max-width: 1100px; }
+main.overflow-hidden > section:first-of-type p { max-width: 600px; color: #b1b4b9 !important; }
+
+/* Give every section the rhythm of a premium product landing page. */
+main.overflow-hidden section {
+  border-color: var(--bl-line) !important;
+}
+main.overflow-hidden section.py-20,
+main.overflow-hidden section.py-24,
+main.overflow-hidden section.py-28,
+main.overflow-hidden section.py-32 {
+  padding-top: clamp(76px, 10vw, 148px) !important;
+  padding-bottom: clamp(76px, 10vw, 148px) !important;
+}
+main.overflow-hidden .rounded-2xl,
+main.overflow-hidden .rounded-3xl,
+main.overflow-hidden .rounded-\[1\.5rem\] {
+  border-radius: 18px !important;
+}
+main.overflow-hidden .border-white\/10,
+main.overflow-hidden .border-white\/\[\.07\] {
+  border-color: var(--bl-line) !important;
+}
+main.overflow-hidden .bg-graphite-900\/75,
+main.overflow-hidden .bg-graphite-900\/80 {
+  background: linear-gradient(145deg, #141719, #0e1011) !important;
+}
+
+/* Cards become interactive demo panels, with visible hover feedback. */
+main.overflow-hidden .grid > div,
+main.overflow-hidden .grid > a,
+main.overflow-hidden .grid > article {
+  min-width: 0;
+}
+main.overflow-hidden [class*="hover:-translate-y"] {
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .25s ease, background .25s ease !important;
+}
+main.overflow-hidden [class*="hover:-translate-y"]:hover {
+  transform: translateY(-5px);
+  border-color: rgba(217,255,98,.45) !important;
+}
+main.overflow-hidden a,
+main.overflow-hidden button {
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+main.overflow-hidden button:focus-visible,
+main.overflow-hidden a:focus-visible {
+  outline: 2px solid var(--bl-accent);
+  outline-offset: 4px;
+}
+
+/* Controls and form fields: precise, technical, legible. */
+main.overflow-hidden input,
+main.overflow-hidden select,
+main.overflow-hidden textarea {
+  color: var(--bl-white) !important;
+  background: #101214 !important;
+  border-color: var(--bl-line) !important;
+  border-radius: 10px !important;
+}
+main.overflow-hidden input:focus,
+main.overflow-hidden select:focus,
+main.overflow-hidden textarea:focus {
+  border-color: rgba(217,255,98,.7) !important;
+  box-shadow: 0 0 0 3px rgba(217,255,98,.09) !important;
+  outline: none;
+}
+main.overflow-hidden button.bg-amber-500,
+main.overflow-hidden a.bg-amber-500,
+main.overflow-hidden button[class*="bg-amber-"] {
+  color: #0a0b0b !important;
+  font-weight: 650;
+}
+main.overflow-hidden button.bg-amber-500:hover,
+main.overflow-hidden a.bg-amber-500:hover {
+  background: #e5ff91 !important;
+  transform: translateY(-2px);
+}
+
+/* Section labels read like product documentation indices. */
+main.overflow-hidden [class*="font-mono"][class*="uppercase"] {
+  letter-spacing: .16em !important;
+  color: var(--bl-accent) !important;
+}
+
+/* Map and image panels should feel like part of the product, not floating widgets. */
+main.overflow-hidden iframe,
+main.overflow-hidden .leaflet-container,
+main.overflow-hidden img {
+  max-width: 100%;
+}
+main.overflow-hidden .leaflet-container {
+  border: 1px solid var(--bl-line);
+  border-radius: 16px;
+  filter: saturate(.72);
+}
+
+/* Gentle entrance motion for existing Framer Motion content, respecting accessibility. */
+@media (prefers-reduced-motion: no-preference) {
+  main.overflow-hidden > section:first-of-type h1 {
+    animation: bl-rise-in .75s cubic-bezier(.16,1,.3,1) both;
+  }
+  main.overflow-hidden > section:first-of-type p {
+    animation: bl-rise-in .75s .12s cubic-bezier(.16,1,.3,1) both;
+  }
+}
+@keyframes bl-rise-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  main.overflow-hidden > section:first-of-type { min-height: 760px; }
+  main.overflow-hidden > section:first-of-type > div:not(.absolute) {
+    padding-top: 120px;
+    padding-bottom: 72px;
+  }
+  main.overflow-hidden h1 { font-size: clamp(3.15rem, 15vw, 5.2rem) !important; }
+  main.overflow-hidden h2 { font-size: clamp(2.35rem, 11vw, 3.8rem) !important; }
+}
+
+
+
+/* Motion.dev-inspired typography refinement */
+main.overflow-hidden {
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+main.overflow-hidden .font-display {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif !important;
+  font-weight: 550;
+}
+
+main.overflow-hidden .bl-studio-title {
+  font-size: clamp(2.65rem, 5.2vw, 4.5rem) !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.065em !important;
+  font-weight: 600 !important;
+}
+
+main.overflow-hidden h2 {
+  letter-spacing: -0.045em;
+}
+
+main.overflow-hidden p {
+  font-kerning: normal;
+}
+
+@media (max-width: 640px) {
+  main.overflow-hidden .bl-studio-title {
+    font-size: clamp(2.45rem, 10.5vw, 3.6rem) !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+  }
+}
